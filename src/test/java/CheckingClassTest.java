@@ -27,7 +27,7 @@ public class CheckingClassTest {
     }
 
     @Test
-    public void printPersons() {
+    public void LocalClassTest() {
 
         Predicate<Person> predicate = p ->
                 p.getName().equals("Alex");
@@ -38,6 +38,38 @@ public class CheckingClassTest {
 
         Assert.assertEquals(expected,actual);
 
+    }
+    @Test
+    public void AnonClassTest() {
 
+        Predicate<Person> predicate = p ->
+                p.getName().equals("Alex");
+
+        CheckPerson checkPerson = checkingClass.new Tester(predicate);
+
+        Integer actual = checkingClass.printPersons(list, new CheckPerson() {
+            @Override
+            public boolean test(Person p) {
+                return p.getEmailAddress().equals("1@mail.com");
+            }
+        });
+        Integer expected = 1;
+
+        Assert.assertEquals(expected,actual);
+    }
+
+    @Test
+    public void lambdaTest() {
+
+        Predicate<Person> predicate = p ->
+                p.getName().equals("Alex");
+
+        CheckPerson checkPerson = checkingClass.new Tester(predicate);
+
+        Integer actual = checkingClass.printPersons(list, p -> p.getName().equals("Donna"));
+
+        Integer expected = 1;
+
+        Assert.assertEquals(expected,actual);
     }
 }
